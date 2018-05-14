@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 
 class ClassComponent1 extends React.Component {
   state = {
-    count: 0,
+    counter: 0,
     asc: true,
     arr: [],
   }
@@ -23,25 +23,26 @@ class ClassComponent1 extends React.Component {
   handleClick = () => {
     this.setState(prevState => ({
       count: prevState.count + 1,
+      asc: !prevState.asc,
     }))
   }
   render() {
     return (
       <div className="classComponent1">
         <button style={{ border: '1px solid teal' }} onClick={this.handleClick}>
-          click {this.state.count} times
+          click {this.state.counter} times
         </button>
         <p className="more">
-          {this.state.arr.map((item, index) => {
-            if (index <= this.state.arr.length - 1) {
-              return (
-                <React.Fragment key={item}>
-                  <span>{item}</span>
-                  <br />
-                </React.Fragment>
-              )
+          {this.state.arr.map((text, index) => {
+            if (index === 0) {
+              return <span key={text}>{text}</span>
             }
-            return <span key={item}>{item}</span>
+            return (
+              <React.Fragment key={text}>
+                <br />
+                <span>{text}</span>
+              </React.Fragment>
+            )
           })}
         </p>
       </div>
