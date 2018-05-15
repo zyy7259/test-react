@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 // import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
 
-class ClassComponent1 extends React.Component {
+class ClassComponent1 extends React.PureComponent {
   state = {
     counter: 0,
     asc: true,
@@ -21,9 +21,12 @@ class ClassComponent1 extends React.Component {
     }
   }
   handleClick = () => {
-    this.setState(prevState => ({
-      count: prevState.count + 1,
+    this.setState((prevState, nextProps) => ({
+      counter: prevState.counter + 1,
       asc: !prevState.asc,
+      arr: !prevState.asc
+        ? nextProps.arr.slice()
+        : nextProps.arr.slice().reverse(),
     }))
   }
   render() {
@@ -50,14 +53,14 @@ class ClassComponent1 extends React.Component {
   }
 }
 
-class ClassComponent2 extends React.Component {
+class ClassComponent2 extends React.PureComponent {
   render() {
     return <div className="classComponent2">asdf</div>
   }
 }
 
 function FunctionalComponent1() {
-  return <div className="functionalComponent1" />
+  return <div className="functionalComponent1">fc</div>
 }
 
 function FunctionalComponent2() {
