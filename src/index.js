@@ -1,17 +1,26 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import ReactDOM from 'react-dom'
 // import './index.css';
 // import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
 
+const ForwardRef = React.forwardRef((props, ref) => {
+  return (
+    <div ref={ref} className="demo-forwardRef">
+      demo-forwardRef
+    </div>
+  )
+})
+
 class ClassComponent1 extends React.PureComponent {
-  state = {
-    counter: 0,
-    asc: true,
-    arr: [],
+  static propTypes = {
+    arr: PropTypes.array,
   }
 
-  btnRef = React.createRef()
+  static defaultProps = {
+    arr: ['foo', 'bar', 'baz'],
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.asc) {
@@ -24,6 +33,15 @@ class ClassComponent1 extends React.PureComponent {
     }
   }
 
+  state = {
+    counter: 0,
+    asc: true,
+    arr: [],
+  }
+
+  btnRef = React.createRef()
+  forwardRef = React.createRef()
+
   handleClick = () => {
     // effectTag |= Callback
     this.setState(
@@ -35,8 +53,9 @@ class ClassComponent1 extends React.PureComponent {
           : nextProps.arr.slice().reverse(),
       }),
       () => {
+        console.log('did setState')
         console.log(this.btnRef.current)
-        console.log('setState done')
+        console.log(this.forwardRef.current)
       }
     )
   }
@@ -56,15 +75,16 @@ class ClassComponent1 extends React.PureComponent {
     })
     // render
     return (
-      <div className="classComponent1">
+      <div className="demo-classComponent1">
         <button
           ref={this.btnRef}
-          style={{ border: '1px solid teal' }}
+          style={{ border: '1px solid teal', outline: 0 }}
           onClick={this.handleClick}
         >
           click {this.state.counter} times
         </button>
         <p className="arr">{arr}</p>
+        <ForwardRef ref={this.forwardRef} />
       </div>
     )
   }
@@ -87,12 +107,12 @@ class ClassComponent1 extends React.PureComponent {
 
 class ClassComponent2 extends React.PureComponent {
   render() {
-    return <div className="classComponent2">asdf</div>
+    return <div className="demo-classComponent2">asdf</div>
   }
 }
 
 function FunctionalComponent1() {
-  return <div className="functionalComponent1">fc</div>
+  return <div className="demo-functionalComponent1">fc</div>
 }
 
 function FunctionalComponent2() {
@@ -104,7 +124,7 @@ function FunctionalComponent2() {
 function App() {
   return (
     <React.Fragment>
-      <ClassComponent1 arr={['foo', 'bar', 'baz']} />
+      <ClassComponent1 />
       <FunctionalComponent1 />
       <FunctionalComponent2 />
     </React.Fragment>
