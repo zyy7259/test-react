@@ -11,6 +11,8 @@ class ClassComponent1 extends React.PureComponent {
     arr: [],
   }
 
+  btnRef = React.createRef()
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.asc) {
       return {
@@ -33,30 +35,36 @@ class ClassComponent1 extends React.PureComponent {
           : nextProps.arr.slice().reverse(),
       }),
       () => {
+        console.log(this.btnRef.current)
         console.log('setState done')
       }
     )
   }
 
   render() {
+    // arr
+    const arr = this.state.arr.map((text, index) => {
+      if (index === 0) {
+        return <span key={text}>{text}</span>
+      }
+      return (
+        <React.Fragment key={text}>
+          <br />
+          <span>{text}</span>
+        </React.Fragment>
+      )
+    })
+    // render
     return (
       <div className="classComponent1">
-        <button style={{ border: '1px solid teal' }} onClick={this.handleClick}>
+        <button
+          ref={this.btnRef}
+          style={{ border: '1px solid teal' }}
+          onClick={this.handleClick}
+        >
           click {this.state.counter} times
         </button>
-        <p className="more">
-          {this.state.arr.map((text, index) => {
-            if (index === 0) {
-              return <span key={text}>{text}</span>
-            }
-            return (
-              <React.Fragment key={text}>
-                <br />
-                <span>{text}</span>
-              </React.Fragment>
-            )
-          })}
-        </p>
+        <p className="arr">{arr}</p>
       </div>
     )
   }
