@@ -119,6 +119,20 @@ function FunctionalComponent2() {
   return <ClassComponent2 />
 }
 
+let modalRoot = document.querySelector('#modal-root')
+if (!modalRoot) {
+  modalRoot = document.createElement('div')
+  modalRoot.id = 'modal-root'
+  document.body.appendChild(modalRoot)
+}
+
+function PortalComponent() {
+  return ReactDOM.createPortal(
+    <div className="demo-modal">demo-modal</div>,
+    modalRoot
+  )
+}
+
 // TODO: switching from a direct text child to a normal child, or to empty
 
 function App() {
@@ -127,6 +141,7 @@ function App() {
       <ClassComponent1 />
       <FunctionalComponent1 />
       <FunctionalComponent2 />
+      <PortalComponent />
     </React.Fragment>
   )
 }
