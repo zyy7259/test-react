@@ -10,6 +10,7 @@ class ClassComponent1 extends React.PureComponent {
     asc: true,
     arr: [],
   }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.asc) {
       return {
@@ -20,15 +21,23 @@ class ClassComponent1 extends React.PureComponent {
       arr: nextProps.arr.slice().reverse(),
     }
   }
+
   handleClick = () => {
-    this.setState((prevState, nextProps) => ({
-      counter: prevState.counter + 1,
-      asc: !prevState.asc,
-      arr: !prevState.asc
-        ? nextProps.arr.slice()
-        : nextProps.arr.slice().reverse(),
-    }))
+    // effectTag |= Callback
+    this.setState(
+      (prevState, nextProps) => ({
+        counter: prevState.counter + 1,
+        asc: !prevState.asc,
+        arr: !prevState.asc
+          ? nextProps.arr.slice()
+          : nextProps.arr.slice().reverse(),
+      }),
+      () => {
+        console.log('setState done')
+      }
+    )
   }
+
   render() {
     return (
       <div className="classComponent1">
@@ -51,6 +60,21 @@ class ClassComponent1 extends React.PureComponent {
       </div>
     )
   }
+
+  // effectTag |= Update
+  componentDidMount() {
+    console.log('did mount')
+  }
+
+  // effectTag |= Snapshot
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    return {
+      snapshot: 'zyy',
+    }
+  }
+
+  // effectTag |= Update
+  componentDidUpdate(prevProps, prevState, snapshot) {}
 }
 
 class ClassComponent2 extends React.PureComponent {
@@ -66,6 +90,8 @@ function FunctionalComponent1() {
 function FunctionalComponent2() {
   return <ClassComponent2 />
 }
+
+// TODO: switching from a direct text child to a normal child, or to empty
 
 function App() {
   return (
