@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Vue from 'vue'
 // import './index.css';
 // import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
@@ -37,6 +38,8 @@ class ClassComponent1 extends React.PureComponent {
     counter: 0,
     asc: true,
     arr: [],
+    hasError: false,
+    errorInfo: null,
   }
 
   btnRef = React.createRef()
@@ -61,6 +64,10 @@ class ClassComponent1 extends React.PureComponent {
   }
 
   render() {
+    if (this.state.hasError) {
+      console.log('has error')
+      return <div>error</div>
+    }
     // arr
     const arr = this.state.arr.map((text, index) => {
       if (index === 0) {
@@ -85,6 +92,7 @@ class ClassComponent1 extends React.PureComponent {
         </button>
         <p className="arr">{arr}</p>
         <ForwardRef ref={this.forwardRef} />
+        {this.props.children}
       </div>
     )
   }
@@ -103,6 +111,14 @@ class ClassComponent1 extends React.PureComponent {
 
   // effectTag |= Update
   componentDidUpdate(prevProps, prevState, snapshot) {}
+
+  componentDidCatch(error, info) {
+    console.log('did catch')
+    this.setState({
+      hasError: true,
+      errorInfo: info,
+    })
+  }
 }
 
 class ClassComponent2 extends React.PureComponent {
@@ -133,12 +149,19 @@ function PortalComponent() {
   )
 }
 
+function Err() {
+  // throw new Error('bang')
+  return ''
+}
+
 // TODO: switching from a direct text child to a normal child, or to empty
 
 function App() {
   return (
     <React.Fragment>
-      <ClassComponent1 />
+      <ClassComponent1>
+        <Err />
+      </ClassComponent1>
       <FunctionalComponent1 />
       <FunctionalComponent2 />
       <PortalComponent />
