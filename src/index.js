@@ -20,7 +20,7 @@ class ClassComponent1 extends React.PureComponent {
   }
 
   static defaultProps = {
-    arr: ['a', 'b', 'c', 'd'],
+    arr: ['a', 'b', 'c', 'd', 'e'],
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -44,7 +44,7 @@ class ClassComponent1 extends React.PureComponent {
       (prevState, nextProps) => ({
         counter: prevState.counter + 1,
         asc: !prevState.asc,
-        arr: ['a', 'c', 'b', 'd'],
+        arr: ['a', 'b', 'f', 'd', 'c', 'e'],
       }),
       () => {
         console.log('did setState')
