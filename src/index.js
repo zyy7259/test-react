@@ -56,7 +56,7 @@ class ClassComponent1 extends React.PureComponent {
 
   render() {
     if (this.state.hasError) {
-      console.log('has error')
+      console.log('render error')
       return <div>error</div>
     }
     // arr
