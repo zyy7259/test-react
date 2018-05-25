@@ -44,7 +44,7 @@ class ClassComponent1 extends React.PureComponent {
       (prevState, nextProps) => ({
         counter: prevState.counter + 1,
         asc: !prevState.asc,
-        arr: ['a', 'b', 'f', 'd', 'c', 'e'],
+        arr: ['a', 'b', '1', '2', 'd', 'c', 'e', 'y', 'z'],
       }),
       () => {
         console.log('did setState')
