@@ -20,24 +20,17 @@ class ClassComponent1 extends React.PureComponent {
   }
 
   static defaultProps = {
-    arr: ['foo', 'bar', 'baz'],
+    arr: ['a', 'b', 'c', 'd'],
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.asc) {
-      return {
-        arr: nextProps.arr.slice(),
-      }
-    }
-    return {
-      arr: nextProps.arr.slice().reverse(),
-    }
+    return null
   }
 
   state = {
     counter: 0,
     asc: true,
-    arr: [],
+    arr: this.props.arr,
     hasError: false,
     errorInfo: null,
   }
@@ -51,9 +44,7 @@ class ClassComponent1 extends React.PureComponent {
       (prevState, nextProps) => ({
         counter: prevState.counter + 1,
         asc: !prevState.asc,
-        arr: !prevState.asc
-          ? nextProps.arr.slice()
-          : nextProps.arr.slice().reverse(),
+        arr: ['a', 'c', 'b', 'd'],
       }),
       () => {
         console.log('did setState')
@@ -88,7 +79,7 @@ class ClassComponent1 extends React.PureComponent {
           style={{ border: '1px solid teal', outline: 0 }}
           onClick={this.handleClick}
         >
-          click {this.state.counter} times
+          {`click ${this.state.counter} times`}
         </button>
         <p className="arr">{arr}</p>
         <ForwardRef ref={this.forwardRef} />
