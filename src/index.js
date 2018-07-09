@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Vue from 'vue'
+// import Vue from 'vue'
 // import './index.css';
 // import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
@@ -13,6 +13,32 @@ const ForwardRef = React.forwardRef((props, ref) => {
     </div>
   )
 })
+
+class ToggleComponent extends React.PureComponent {
+  state = {
+    on: false,
+  }
+
+  handleClick = () => {
+    this.setState(prevState => ({
+      on: !prevState.on,
+    }))
+  }
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.handleClick}>toogle</button>
+        {this.state.on ? 'on' : 'off'}
+      </div>
+    )
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    debugger
+    var node = ReactDOM.findDOMNode(this)
+  }
+}
 
 class ClassComponent1 extends React.PureComponent {
   static propTypes = {
@@ -82,6 +108,7 @@ class ClassComponent1 extends React.PureComponent {
           {`click ${this.state.counter} times`}
         </button>
         <p className="arr">{arr}</p>
+        <ToggleComponent />
         <ForwardRef ref={this.forwardRef} />
         {this.props.children}
       </div>
@@ -101,7 +128,10 @@ class ClassComponent1 extends React.PureComponent {
   }
 
   // effectTag |= Update
-  componentDidUpdate(prevProps, prevState, snapshot) {}
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // debugger
+    // var node = ReactDOM.findDOMNode(this)
+  }
 
   componentDidCatch(error, info) {
     console.log('did catch')
